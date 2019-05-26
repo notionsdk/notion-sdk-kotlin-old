@@ -34,7 +34,7 @@ Latest version: https://github.com/petersamokhin/knotion-api/releases/latest
 val token = "abcd..." // see above
 val notion = Notion(token)
 
-val pageId = "abcd..." // see above
+val pageId = "abcd...".dashifyId() // see above
 val page = notion.loadPage(pageId)
 
 val collectionId = page.recordMap.collectionsMap.keys.first()
@@ -51,7 +51,7 @@ val table = collectionResponse.mapTable()
 // Then print mapped data:
 
 println(title)
-println(descrtiption)
+println(description)
 
 // each row is Map<String, String>
 table?.rows?.forEach(::println)
