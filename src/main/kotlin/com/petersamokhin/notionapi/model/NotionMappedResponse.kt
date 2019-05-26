@@ -1,10 +1,12 @@
 package com.petersamokhin.notionapi.model
 
-data class NotionTable(
-    val rows: List<Map<String, String>>
+import com.google.gson.Gson
+
+data class NotionTable<T>(
+    val rows: List<T>
 )
 
-fun NotionCollection.mapTable(blocks: List<NotionBlock>) = NotionTable(blocks.map {
+fun NotionCollection.mapTable(blocks: List<NotionBlock>) = NotionTable<Map<String, String>>(blocks.map {
     val props = it.value.properties
     mutableMapOf<String, String>().also { map ->
         props.keys.forEach { innerRowKey ->
@@ -15,10 +17,14 @@ fun NotionCollection.mapTable(blocks: List<NotionBlock>) = NotionTable(blocks.ma
     }
 })
 
-fun NotionResponse.mapTable(): NotionTable? {
+fun NotionResponse.mapTable(): NotionTable<Map<String, String>>? {
     val collectionId = recordMap.collectionsMap.keys.first()
     val collection = recordMap.collectionsMap[collectionId]
-
     val blocks = result.blockIds.map { recordMap.blocksMap.getValue(it) }
+
     return collection?.mapTable(blocks)
+}
+
+inline fun <reified T> NotionResponse.mapDeserializeTable(gson: Gson): NotionTable<T>? = mapTable()?.let { map ->
+    NotionTable(map.rows.map { gson.fromJson(gson.toJson(it), T::class.java) })
 }

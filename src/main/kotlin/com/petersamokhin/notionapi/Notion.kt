@@ -16,7 +16,6 @@ class Notion(private val token: String) {
     @KtorExperimentalAPI
     private val httpClient = HttpClient(OkHttp) {
         engine {
-            // addInterceptor(HttpLoggingInterceptor(::println).setLevel(HttpLoggingInterceptor.Level.BODY))
             addInterceptor(Interceptor {
                 val request = it.request().newBuilder().addHeader("cookie", "token_v2=$token").build()
                 it.proceed(request).newBuilder().removeHeader("Set-Cookie").build()
