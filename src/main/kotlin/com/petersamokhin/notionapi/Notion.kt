@@ -1,5 +1,6 @@
 package com.petersamokhin.notionapi
 
+import com.petersamokhin.notionapi.model.LoadPageChunkRequestBody
 import com.petersamokhin.notionapi.model.Loader
 import com.petersamokhin.notionapi.model.NotionResponse
 import com.petersamokhin.notionapi.model.QueryCollectionRequestBody
@@ -15,6 +16,7 @@ class Notion(private val token: String) {
     @KtorExperimentalAPI
     private val httpClient = HttpClient(OkHttp) {
         engine {
+            // addInterceptor(HttpLoggingInterceptor(::println).setLevel(HttpLoggingInterceptor.Level.BODY))
             addInterceptor(Interceptor {
                 val request = it.request().newBuilder().addHeader("cookie", "token_v2=$token").build()
                 it.proceed(request).newBuilder().removeHeader("Set-Cookie").build()
@@ -26,6 +28,13 @@ class Notion(private val token: String) {
                 setDateFormat(DateFormat.FULL)
             }
         }
+    }
+
+    @KtorExperimentalAPI
+    suspend fun loadPage(pageId: String, limit: Int = 50): NotionResponse {
+        return LoadPageChunkRequest(httpClient).execute(
+            LoadPageChunkRequestBody(pageId, limit, 0, false)
+        )
     }
 
     @KtorExperimentalAPI

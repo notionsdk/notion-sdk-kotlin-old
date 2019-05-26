@@ -9,7 +9,8 @@ data class NotionResponse(
 
 data class NotionRecordMap(
     @SerializedName("block") val blocksMap: Map<String, NotionBlock>,
-    @SerializedName("collection") val collectionsMap: Map<String, NotionCollection>
+    @SerializedName("collection") val collectionsMap: Map<String, NotionCollection>,
+    @SerializedName("collection_view") val collectionViewsMap: Map<String, NotionCollectionView>
 )
 
 data class NotionBlock(
@@ -54,6 +55,11 @@ data class NotionCollection(
     val value: NotionCollectionValue
 )
 
+data class NotionCollectionView(
+    val role: String,
+    val value: NotionCollectionViewValue
+)
+
 data class NotionCollectionCoverFormat(
     @SerializedName("collection_cover_position")
     val collectionCoverPosition: Double
@@ -62,17 +68,29 @@ data class NotionCollectionCoverFormat(
 data class NotionCollectionValue(
     val alive: Boolean,
     val cover: String,
-    val description: List<Any>,
+    val description: List<List<Any>>,
     val format: NotionCollectionCoverFormat,
     val icon: String,
     val id: String,
-    val name: List<List<String>>,
+    val name: List<List<Any>>,
     @SerializedName("parent_id")
     val parentId: String,
     @SerializedName("parent_table")
     val parentTable: String,
     val schema: Map<String, NotionCollectionRow>,
     val version: Int
+)
+
+data class NotionCollectionViewValue(
+    val id: String,
+    val version: Int,
+    val type: String,
+    val name: String,
+    val alive: Boolean,
+    @SerializedName("parent_id")
+    val parentId: String,
+    @SerializedName("parent_table")
+    val parentTable: String
 )
 
 data class NotionCollectionRow(

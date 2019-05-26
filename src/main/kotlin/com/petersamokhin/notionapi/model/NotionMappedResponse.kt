@@ -14,3 +14,11 @@ fun NotionCollection.mapTable(blocks: List<NotionBlock>) = NotionTable(blocks.ma
         }
     }
 })
+
+fun NotionResponse.mapTable(): NotionTable? {
+    val collectionId = recordMap.collectionsMap.keys.first()
+    val collection = recordMap.collectionsMap[collectionId]
+
+    val blocks = result.blockIds.map { recordMap.blocksMap.getValue(it) }
+    return collection?.mapTable(blocks)
+}

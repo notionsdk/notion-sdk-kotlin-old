@@ -11,3 +11,10 @@ data class Loader(
     val loadContentCover: Boolean,
     val type: String
 )
+
+data class LoadPageChunkRequestBody(
+    val pageId: String,
+    val limit: Int,
+    val chunkNumber: Int,
+    val verticalColumns: Boolean
+)
