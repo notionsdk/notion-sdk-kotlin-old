@@ -51,7 +51,7 @@ val table = collectionResponse.mapTable()
 // Then print mapped data:
 
 println(title)
-println(descrtiption)
+println(description)
 
 // each row is Map<String, String>
 table?.rows?.forEach(::println)
