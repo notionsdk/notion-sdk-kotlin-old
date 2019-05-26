@@ -1,6 +1,23 @@
 # KNotion API
 Unofficial Notion.so API wrapper, written in Kotlin.
 
+### Install
+- Add `jitpack.io` to your repositories list
+```
+repositories {
+    // ...
+    maven { url 'https://jitpack.io' }
+}
+```
+- Add library to dependencies list
+```
+dependencies {
+    implementation "com.github.petersamokhin:knotion-api:$kNotionApiVersion"
+}
+```
+
+Latest version: https://github.com/petersamokhin/knotion-api/releases
+
 ### Get authorization token
 - Open any [notion.so](https://notion.so) page in browser (e.g. in Google Chrome)
 - Open debugging tools (you must be logged in)
