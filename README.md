@@ -59,6 +59,8 @@ table?.rows?.forEach(::println)
 // ...
 val gson = Gson()
 val testTable = collectionResponse.mapDeserializeTable<TestTableBlock>(gson)
+
+testTable?.rows?.forEach(::println)
 ```
 
 Where `TestTableBlock` is:
