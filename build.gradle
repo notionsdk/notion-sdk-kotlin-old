@@ -16,6 +16,7 @@ dependencies {
 
     implementation "io.ktor:ktor-client-okhttp:$ktorVersion"
     implementation "io.ktor:ktor-client-gson:$ktorVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.14.2"
 }
 
 compileKotlin {

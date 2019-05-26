@@ -18,7 +18,7 @@ class Notion(private val token: String) {
         engine {
             addInterceptor(Interceptor {
                 val request = it.request().newBuilder().addHeader("cookie", "token_v2=$token").build()
-                it.proceed(request).newBuilder().removeHeader("Set-Cookie").build()
+                it.proceed(request).newBuilder().removeHeader("Set-Cookie").build() // ktor-client cookie feature can't parse incorrect GMT dates
             })
         }
         install(JsonFeature) {

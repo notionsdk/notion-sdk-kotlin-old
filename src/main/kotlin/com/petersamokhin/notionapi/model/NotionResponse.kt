@@ -33,7 +33,7 @@ data class NotionBlockValue(
     val parentId: String,
     @SerializedName("parent_table")
     val parentTable: String,
-    val properties: Map<String, List<List<String>>>,
+    val properties: Map<String, List<List<Any>>>,
     val type: String,
     val version: Int
 )

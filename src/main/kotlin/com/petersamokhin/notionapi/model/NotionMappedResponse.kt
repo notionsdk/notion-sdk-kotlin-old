@@ -1,6 +1,7 @@
 package com.petersamokhin.notionapi.model
 
 import com.google.gson.Gson
+import com.petersamokhin.notionapi.utils.trimNotionTextField
 
 data class NotionTable<T>(
     val rows: List<T>
@@ -11,7 +12,7 @@ fun NotionCollection.mapTable(blocks: List<NotionBlock>) = NotionTable<Map<Strin
     mutableMapOf<String, String>().also { map ->
         props.keys.forEach { innerRowKey ->
             value.schema[innerRowKey]?.name?.also { name ->
-                map[name] = props[innerRowKey]?.first()?.first().orEmpty()
+                map[name] = props[innerRowKey]?.trimNotionTextField().orEmpty()
             }
         }
     }
