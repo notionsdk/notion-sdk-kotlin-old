@@ -16,7 +16,7 @@ dependencies {
 }
 ```
 
-Latest version: https://github.com/petersamokhin/knotion-api/releases
+Latest version: https://github.com/petersamokhin/knotion-api/releases/latest
 
 ### Get authorization token
 - Open any [notion.so](https://notion.so) page in browser (e.g. in Google Chrome)
