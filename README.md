@@ -36,6 +36,7 @@ val table = collectionResponse.mapTable()
 println(title)
 println(descrtiption)
 
+// each row is Map<String, String>
 table?.rows?.forEach(::println)
 ```
 
@@ -51,4 +52,28 @@ table?.rows?.forEach(::println)
 {count=3, description=Some text, duration=10, id=item_0}
 {count=2, description=Hmm, more text, duration=10, id=item_1}
 {count=4, description=For me and for my son too, duration=20, id=item_2}
+```
+
+**Also you can map table with your data classes**
+```kotlin
+// ...
+val gson = Gson()
+val testTable = collectionResponse.mapDeserializeTable<TestTableBlock>(gson)
+```
+
+Where `TestTableBlock` is:
+```kotlin
+data class TestTableBlock(
+    val id: String,
+    val count: Int,
+    val duration: Int,
+    val description: String
+)
+```
+
+**Output:**
+```
+TestTableBlock(id=item_0, count=3, duration=10, description=Some text)
+TestTableBlock(id=item_1, count=2, duration=10, description=Hmm, more text)
+TestTableBlock(id=item_2, count=4, duration=20, description=For me and for my son too)
 ```
