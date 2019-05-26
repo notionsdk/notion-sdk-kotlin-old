@@ -1,5 +1,5 @@
 # KNotion API
-Unofficial Notion.so API wrapper written in Kotlin.
+Unofficial Notion.so API wrapper, written in Kotlin.
 
 ### Get authorization token
 - Open any [notion.so](https://notion.so) page in browser (e.g. in Google Chrome)
