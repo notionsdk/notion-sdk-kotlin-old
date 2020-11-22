@@ -37,6 +37,8 @@ class Notion(private val token: String, private var httpClient: HttpClient) {
         )
     }
 
+    fun close() = httpClient.close()
+
     companion object {
         private const val NOTION_TOKEN_COOKIE_KEY = "token_v2"
     }
