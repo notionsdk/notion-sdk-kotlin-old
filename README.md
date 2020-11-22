@@ -1,15 +1,20 @@
 # KNotion API
-Unofficial Notion.so API wrapper, written in Kotlin. You can use it in Java too.
+
+Unofficial Notion.so API wrapper, written in Kotlin. Can be used in Java.
 
 ### Install
+
 - Add `jitpack.io` to your repositories list
+
 ```
 repositories {
     // ...
     maven { url 'https://jitpack.io' }
 }
 ```
+
 - Add library to dependencies list
+
 ```
 dependencies {
     implementation "com.github.petersamokhin:knotion-api:$kNotionApiVersion"
@@ -19,20 +24,30 @@ dependencies {
 Latest version: https://github.com/petersamokhin/knotion-api/releases/latest
 
 ### Get authorization token
+
 - Open any [notion.so](https://notion.so) page in browser (e.g. in Google Chrome)
 - Open debugging tools (you must be logged in)
 - Obtain the `token_v2` cookie value of `https://www.notion.so/`
 
 ### Get page id
+
 - Open any page
 - Your link should look like `https://www.notion.so/<your_wokspace>/d822369169254cc4a1b2f5bbf3e8b87b`
-- Last **path** part is page id (skip all query params)
+- Last **path** part is page id (skip all query params), `d822369169254cc4a1b2f5bbf3e8b87b` for example above.
 
-### Example: get data from collection
+### Example: map collection to human-readable JSON
 
 ```kotlin
 val token = "abcd..." // see above
-val notion = Notion(token)
+
+val httpClient = HttpClient(CIO) {
+    // json feature is required to be installed to your client
+    install(JsonFeature) {
+        serializer = KotlinxSerializer(Json { ignoreUnknownKeys = true })
+    }
+}
+
+val notion = Notion(token, httpClient) // there is no client by default, you need to provide it
 
 val pageId = "abcd...".dashifyId() // see above
 val page = notion.loadPage(pageId)
@@ -46,53 +61,49 @@ val collection = collectionResponse.recordMap.collectionsMap[collectionId]
 val title = collection?.title()
 val description = collection?.description()
 
-val table = collectionResponse.mapTable()
+val jsonArray: JsonArray? = collectionResponse.mapCollectionToJsonArray()
 
 // Then print mapped data:
 
 println(title)
 println(description)
 
-// each row is Map<String, String>
-table?.rows?.forEach(::println)
+println(jsonArray)
 ```
 
 **Source collection:**
 
-<img src="https://i.imgur.com/p1IAadV.png" data-canonical-src="https://i.imgur.com/p1IAadV.png" width="471" height="260" />
+<img src="https://i.imgur.com/w24wLPW.png" data-canonical-src="https://i.imgur.com/w24wLPW.png" width="384" height="348" />
 
 **Output:**
 
 ```
 'Test table'
-'Test description of this demo collection.'
-{count=3, description=Some text, duration=10, id=item_0}
-{count=2, description=Hmm, more text, duration=10, id=item_1}
-{count=4, description=For me and for my son too, duration=20, id=item_2}
+'Test description'
+[{"value":"some_value_0","key":"some_key_0"},{"checked":true,"value":"another_value","key":"some_key_1"}]
 ```
 
-**Also you can map table with your data classes**
+So starting from here you can use the JSON to map your models.
+
+### Mapping
+
+You can also use the pre-defined mapping:
+
 ```kotlin
-// ...
-val gson = Gson()
-val testTable = collectionResponse.mapDeserializeTable<TestTableBlock>(gson)
+// ... see the previous example for the above steps
 
-testTable?.rows?.forEach(::println)
-```
+val table: NotionTable<Map<String, NotionColumn<*>>>? = collectionResponse.mapTable()
 
-Where `TestTableBlock` is:
-```kotlin
-data class TestTableBlock(
-    val id: String,
-    val count: Int,
-    val duration: Int,
-    val description: String
-)
+// Table contains the (1) schema (map) of the collection:
+println(table?.schema)
+// {checked=Checkbox(name=checked, type=Checkbox), value=Text(name=value, type=Text), key=Title(name=key, type=Title)}
+
+println(table)
+// NotionTable(rows=[{value=NotionColumn(name=value, type=Text, value=Text(key=value, value=some_value_0)), key=NotionColumn(name=key, type=Title, value=Text(key=key, value=some_key_0))}, {checked=NotionColumn(name=checked, type=Checkbox, value=Bool(key=checked, value=true)), value=NotionColumn(name=value, type=Text, value=Text(key=value, value=another_value)), key=NotionColumn(name=key, type=Title, value=Text(key=key, value=some_key_1))}], schema={checked=Checkbox(name=checked, type=Checkbox), value=Text(name=value, type=Text), key=Title(name=key, type=Title)})
 ```
 
-**Output:**
-```
-TestTableBlock(id=item_0, count=3, duration=10, description=Some text)
-TestTableBlock(id=item_1, count=2, duration=10, description=Hmm, more text)
-TestTableBlock(id=item_2, count=4, duration=20, description=For me and for my son too)
-```
+Unfortunately, Notion API is too dynamically typed to easy cover all the cases for the column types. Date, person,
+email, URL etc. are not available in this library. Only simple text values, numbers, checkboxes, select/multiselect
+values are supported.
+
+**Important note**: if you will have any other columns with these types, serializer will fail.

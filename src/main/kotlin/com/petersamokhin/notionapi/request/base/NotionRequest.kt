@@ -1,4 +1,4 @@
-package com.petersamokhin.notionapi
+package com.petersamokhin.notionapi.request.base
 
 import com.petersamokhin.notionapi.model.NotionResponse
 import io.ktor.client.HttpClient

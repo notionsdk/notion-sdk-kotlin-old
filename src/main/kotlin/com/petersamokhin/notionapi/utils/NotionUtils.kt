@@ -33,10 +33,8 @@ fun String.isValidDashId(): Boolean {
     return toCharArray().all { c -> c in '0'..'9' || c in 'a'..'f' || c in 'A'..'F' || c == '-' }
 }
 
-@Suppress("UNCHECKED_CAST")
-fun List<List<Any>>.trimNotionTextField() = flatMap { list ->
-    list.filter { item -> item is String } as List<String>
-}.joinToString("")
+fun <T> List<List<T>>.trimNotionTextField() =
+    flatten().joinToString("")
 
-fun NotionCollection.title() = value.name.trimNotionTextField()
-fun NotionCollection.description() = value.description.trimNotionTextField()
+fun NotionCollection.title() = value.name?.trimNotionTextField()
+fun NotionCollection.description() = value.description?.trimNotionTextField()

@@ -4,27 +4,19 @@ import com.petersamokhin.notionapi.model.LoadPageChunkRequestBody
 import com.petersamokhin.notionapi.model.Loader
 import com.petersamokhin.notionapi.model.NotionResponse
 import com.petersamokhin.notionapi.model.QueryCollectionRequestBody
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.features.json.GsonSerializer
-import io.ktor.client.features.json.JsonFeature
-import io.ktor.util.KtorExperimentalAPI
-import okhttp3.Interceptor
-import java.text.DateFormat
+import com.petersamokhin.notionapi.request.LoadPageChunkRequest
+import com.petersamokhin.notionapi.request.QueryNotionCollectionRequest
+import io.ktor.client.*
+import io.ktor.client.features.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import io.ktor.util.*
 
-class Notion(private val token: String) {
-    @KtorExperimentalAPI
-    private val httpClient = HttpClient(OkHttp) {
-        engine {
-            addInterceptor(Interceptor {
-                val request = it.request().newBuilder().addHeader("cookie", "token_v2=$token").build()
-                it.proceed(request).newBuilder().removeHeader("Set-Cookie").build() // ktor-client cookie feature can't parse incorrect GMT dates
-            })
-        }
-        install(JsonFeature) {
-            serializer = GsonSerializer {
-                serializeNulls()
-                setDateFormat(DateFormat.FULL)
+class Notion(private val token: String, private var httpClient: HttpClient) {
+    init {
+        httpClient = httpClient.config {
+            defaultRequest {
+                header(HttpHeaders.Cookie, "$NOTION_TOKEN_COOKIE_KEY=$token")
             }
         }
     }
@@ -43,5 +35,9 @@ class Notion(private val token: String) {
                 collectionId, collectionViewId, Loader(limit, false, "table")
             )
         )
+    }
+
+    companion object {
+        private const val NOTION_TOKEN_COOKIE_KEY = "token_v2"
     }
 }

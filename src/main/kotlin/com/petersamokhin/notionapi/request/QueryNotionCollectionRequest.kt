@@ -1,8 +1,9 @@
-package com.petersamokhin.notionapi
+package com.petersamokhin.notionapi.request
 
 import com.petersamokhin.notionapi.model.LoadPageChunkRequestBody
 import com.petersamokhin.notionapi.model.NotionResponse
 import com.petersamokhin.notionapi.model.QueryCollectionRequestBody
+import com.petersamokhin.notionapi.request.base.NotionRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.http.ContentType
