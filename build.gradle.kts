@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version Config.Versions.Kotlin.kotlin
     kotlin("plugin.serialization") version Config.Versions.Kotlin.kotlin
+    id("maven")
 }
 
 kotlin.sourceSets {
