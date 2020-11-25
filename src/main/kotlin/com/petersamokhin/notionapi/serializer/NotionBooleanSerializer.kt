@@ -21,6 +21,6 @@ object NotionBooleanSerializer : KSerializer<Boolean> {
     override fun deserialize(decoder: Decoder): Boolean =
         decoder.decodeString() == NOTION_TRUE
 
-    const val NOTION_TRUE = "Yes"
+    const val NOTION_TRUE = "Yes" // ingeniously
     const val NOTION_FALSE = "No"
 }

@@ -1,4 +1,4 @@
-package com.petersamokhin.notionapi.model
+package com.petersamokhin.notionapi.model.request
 
 import kotlinx.serialization.Serializable
 

@@ -1,1 +1,1 @@
-rootProject.name = "notionapi"
+rootProject.name = "notion-sdk-kotlin"

@@ -1,6 +1,6 @@
 package com.petersamokhin.notionapi.utils
 
-import com.petersamokhin.notionapi.model.NotionCollection
+import com.petersamokhin.notionapi.model.response.NotionCollection
 
 private const val DASH_ID_LENGTH_VALID = 36
 private const val DASH_ID_CLEAN_LENGTH_VALID = 32
@@ -35,6 +35,3 @@ fun String.isValidDashId(): Boolean {
 
 fun <T> List<List<T>>.trimNotionTextField() =
     flatten().joinToString("")
-
-fun NotionCollection.title() = value.name?.trimNotionTextField()
-fun NotionCollection.description() = value.description?.trimNotionTextField()

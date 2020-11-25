@@ -15,8 +15,8 @@ repositories {
     jcenter()
 }
 
-group = "com.petersamokhin.notionapi"
-version = "0.0.6"
+group = "com.petersamokhin.notionsdk"
+version = "1.0.0"
 
 
 dependencies {

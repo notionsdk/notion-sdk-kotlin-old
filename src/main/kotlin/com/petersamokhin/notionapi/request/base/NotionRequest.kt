@@ -1,18 +1,19 @@
 package com.petersamokhin.notionapi.request.base
 
-import com.petersamokhin.notionapi.model.NotionResponse
+import com.petersamokhin.notionapi.model.response.NotionResponse
 import io.ktor.client.HttpClient
 import io.ktor.http.headersOf
 
 abstract class NotionRequest<T>(protected val httpClient: HttpClient) {
     abstract suspend fun execute(requestBody: T): NotionResponse
 
-    protected object Endpoint {
+    internal object Endpoint {
         const val QUERY_COLLECTION = "queryCollection"
         const val LOAD_PAGE_CHUNK = "loadPageChunk"
+        const val LOGIN_WITH_EMAIL = "loginWithEmail"
     }
 
-    protected companion object {
+    companion object {
         const val API_BASE_URL = "https://www.notion.so/api/v3"
         val BASE_HEADERS = headersOf(
             "Accept-Language" to listOf("en-US,en;q=0.9"),
