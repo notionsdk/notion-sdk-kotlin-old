@@ -13,19 +13,11 @@ import com.petersamokhin.notionapi.request.QueryNotionCollectionRequest
 import com.petersamokhin.notionapi.request.base.NotionRequest
 import com.petersamokhin.notionapi.utils.dashifyId
 import io.ktor.client.*
-import io.ktor.client.engine.cio.*
 import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import io.ktor.util.*
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromJsonElement
 
 class Notion internal constructor(token: String, private var httpClient: HttpClient) {
     init {
