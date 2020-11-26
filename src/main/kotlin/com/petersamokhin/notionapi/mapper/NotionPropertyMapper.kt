@@ -23,7 +23,8 @@ fun parseNotionColumn(json: Json, name: String, type: NotionColumnType, field: J
 
     return when (type) {
         NotionColumnType.Title, NotionColumnType.Text, NotionColumnType.Number,
-        NotionColumnType.Checkbox, NotionColumnType.Select, NotionColumnType.MultiSelect -> {
+        NotionColumnType.Checkbox, NotionColumnType.Select, NotionColumnType.MultiSelect,
+        NotionColumnType.Email, NotionColumnType.Url, NotionColumnType.PhoneNumber -> {
             val label = masterList.firstOrNull()?.getOrNull(0)?.contentAsStringOrNull
                 ?: return NotionColumn.SingleValue(name, type, null)
 
@@ -36,11 +37,13 @@ fun parseNotionColumn(json: Json, name: String, type: NotionColumnType, field: J
                     NotionColumnType.Checkbox -> NotionProperty.Value.Checkbox(label == NotionBooleanSerializer.NOTION_TRUE)
                     NotionColumnType.Select -> NotionProperty.Value.Select(label)
                     NotionColumnType.MultiSelect -> NotionProperty.Value.MultiSelect(label.split(","))
+                    NotionColumnType.Email -> NotionProperty.Value.Email(label)
+                    NotionColumnType.Url -> NotionProperty.Value.Url(label)
+                    NotionColumnType.PhoneNumber -> NotionProperty.Value.PhoneNumber(label)
                     else -> throw IllegalStateException("exhaustive")
                 }.let { NotionProperty(label = label, it) }
             )
         }
-        NotionColumnType.Email, NotionColumnType.Url, NotionColumnType.PhoneNumber,
         NotionColumnType.Person, NotionColumnType.File -> {
             NotionColumn.MultiValue(
                 name = name,
@@ -56,9 +59,6 @@ fun parseNotionColumn(json: Json, name: String, type: NotionColumnType, field: J
                 }.flatten()
                     .map { (label, item) ->
                         val v = when (type) {
-                            NotionColumnType.Email -> NotionProperty.Value.Entry.Email(item)
-                            NotionColumnType.Url -> NotionProperty.Value.Entry.Link(item)
-                            NotionColumnType.PhoneNumber -> NotionProperty.Value.Entry.PhoneNumber(item)
                             NotionColumnType.Person -> NotionProperty.Value.Entry.Person(item)
                             NotionColumnType.File -> NotionProperty.Value.Entry.File(item)
                             else -> null

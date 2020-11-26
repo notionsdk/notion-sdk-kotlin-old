@@ -131,6 +131,24 @@ data class NotionProperty(val label: String, val value: Value? = null) {
         }
 
         @Serializable
+        @SerialName("url")
+        data class Url(val url: String) : Value() {
+            override fun simpleJson(json: Json) = JsonPrimitive(url)
+        }
+
+        @Serializable
+        @SerialName("email")
+        data class Email(val email: String) : Value() {
+            override fun simpleJson(json: Json) = JsonPrimitive(email)
+        }
+
+        @Serializable
+        @SerialName("phone_number")
+        data class PhoneNumber(@SerialName("phone_number") val phoneNumber: String) : Value() {
+            override fun simpleJson(json: Json) = JsonPrimitive(phoneNumber)
+        }
+
+        @Serializable
         @SerialName("entry")
         sealed class Entry : Value() {
             @Serializable
@@ -140,27 +158,9 @@ data class NotionProperty(val label: String, val value: Value? = null) {
             }
 
             @Serializable
-            @SerialName("link")
-            data class Link(val url: String) : Entry() {
-                override fun simpleJson(json: Json) = JsonPrimitive(url)
-            }
-
-            @Serializable
             @SerialName("file")
             data class File(val url: String) : Entry() {
                 override fun simpleJson(json: Json) = JsonPrimitive(url)
-            }
-
-            @Serializable
-            @SerialName("email")
-            data class Email(val email: String) : Entry() {
-                override fun simpleJson(json: Json) = JsonPrimitive(email)
-            }
-
-            @Serializable
-            @SerialName("phone_number")
-            data class PhoneNumber(@SerialName("phone_number") val phoneNumber: String) : Entry() {
-                override fun simpleJson(json: Json) = JsonPrimitive(phoneNumber)
             }
 
             @Serializable
