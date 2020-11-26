@@ -106,7 +106,7 @@ sealed class NotionCollectionColumnSchema {
         override val name: String,
         override val type: NotionColumnType,
         @SerialName("time_format") val timeFormat: String? = null,
-        @SerialName("date_format") val dateFormat: String?
+        @SerialName("date_format") val dateFormat: String? = null
     ) : NotionCollectionColumnSchema() {
         @Serializable
         enum class TimeFormat {

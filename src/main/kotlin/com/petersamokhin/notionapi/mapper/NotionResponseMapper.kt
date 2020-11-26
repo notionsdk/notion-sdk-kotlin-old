@@ -64,5 +64,10 @@ fun NotionCollection.mapTable(
 
     val schema = value.schema.mapKeys { it.value.name }
 
-    return NotionTable(rows, schema)
+    return NotionTable(
+        title(),
+        description(),
+        rows,
+        schema
+    )
 }
