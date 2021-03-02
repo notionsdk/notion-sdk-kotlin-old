@@ -4,13 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NotionCollection(
+public data class NotionCollection(
     val role: String,
     val value: NotionCollectionValue
 )
 
 @Serializable
-data class NotionCollectionValue(
+public data class NotionCollectionValue(
     val id: String,
     val name: NotionTextField? = null,
     @SerialName("parent_id")
@@ -28,13 +28,13 @@ data class NotionCollectionValue(
 )
 
 @Serializable
-data class NotionCollectionCoverFormat(
+public data class NotionCollectionCoverFormat(
     @SerialName("collection_cover_position")
     val collectionCoverPosition: Double
 )
 
 @Serializable
-data class NotionCollectionAggregationResult(
+public data class NotionCollectionAggregationResult(
     val id: String? = null,
     val value: Int? = null
 )

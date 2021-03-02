@@ -1,15 +1,22 @@
 package com.petersamokhin.notionapi.utils
 
-import com.petersamokhin.notionapi.model.response.NotionCollection
-
 private const val DASH_ID_LENGTH_VALID = 36
 private const val DASH_ID_CLEAN_LENGTH_VALID = 32
 
-fun String.dashifyId(): String {
+/**
+ * In the page URL, it's ID does not contain any hyphens,
+ * but in requests it does.
+ *
+ * This extension implements the correct logic to convert
+ * the URL page ID to the one for the API requests.
+ */
+public fun String.dashifyId(): String {
     if (isValidDashId()) return this
+
     val clean = replace("-", "")
 
-    if (clean.length != DASH_ID_CLEAN_LENGTH_VALID) throw IllegalArgumentException("Incorrect id format: $this")
+    if (clean.length != DASH_ID_CLEAN_LENGTH_VALID)
+        throw IllegalArgumentException("Incorrect id format: $this")
 
     val chars = clean.toCharArray()
     val resultChars = CharArray(DASH_ID_LENGTH_VALID)
@@ -28,10 +35,17 @@ fun String.dashifyId(): String {
     return String(resultChars)
 }
 
-fun String.isValidDashId(): Boolean {
+public fun String.isValidDashId(): Boolean {
     if (length != DASH_ID_LENGTH_VALID) return false
     return toCharArray().all { c -> c in '0'..'9' || c in 'a'..'f' || c in 'A'..'F' || c == '-' }
 }
 
-fun <T> List<List<T>>.trimNotionTextField() =
+/**
+ * Text fields look like this in the responses:
+ *
+ * ```json
+ * [ ["foo", "bar"] ]
+ * ```
+ */
+public fun <T> List<List<T>>.trimNotionTextField(): String =
     flatten().joinToString("")

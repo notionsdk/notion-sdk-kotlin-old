@@ -4,13 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NotionCollectionView(
+public data class NotionCollectionView(
     val role: String,
     val value: NotionCollectionViewValue
 )
 
 @Serializable
-data class NotionCollectionViewValue(
+public data class NotionCollectionViewValue(
     val id: String,
     val version: Int,
     val type: String,
@@ -24,7 +24,7 @@ data class NotionCollectionViewValue(
 )
 
 @Serializable
-data class NotionCollectionViewValueFormat(
+public data class NotionCollectionViewValueFormat(
     @SerialName("table_wrap")
     val tableWrap: Boolean,
     @SerialName("table_properties")

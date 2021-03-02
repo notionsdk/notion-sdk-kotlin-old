@@ -13,13 +13,15 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromJsonElement
 
-fun NotionCollection.title() = value.name?.trimNotionTextField()
+public fun NotionCollection.title(): String? =
+    value.name?.trimNotionTextField()
 
-fun NotionCollection.description() = value.description?.trimNotionTextField()
+public fun NotionCollection.description(): String? =
+    value.description?.trimNotionTextField()
 
-fun parseNotionColumn(json: Json, name: String, type: NotionColumnType, field: JsonArray?): NotionColumn {
-    if (field.isNullOrEmpty()) return NotionColumn.SingleValue(name, type, null)
-    val masterList = field.filterIsInstance<JsonArray>()
+public fun JsonArray?.parseNotionColumn(json: Json, name: String, type: NotionColumnType): NotionColumn {
+    if (isNullOrEmpty()) return NotionColumn.SingleValue(name, type, null)
+    val masterList = filterIsInstance<JsonArray>()
 
     return when (type) {
         NotionColumnType.Title, NotionColumnType.Text, NotionColumnType.Number,

@@ -1,12 +1,14 @@
 package com.petersamokhin.notionapi.mapper
 
-import com.petersamokhin.notionapi.model.*
+import com.petersamokhin.notionapi.model.NotionColumn
+import com.petersamokhin.notionapi.model.NotionRow
+import com.petersamokhin.notionapi.model.NotionTable
 import com.petersamokhin.notionapi.model.response.NotionBlock
 import com.petersamokhin.notionapi.model.response.NotionCollection
 import com.petersamokhin.notionapi.model.response.NotionResponse
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.Json
 
-fun NotionResponse.mapTable(json: Json, sortColumns: Boolean = false): NotionTable? {
+public fun NotionResponse.mapTable(json: Json, sortColumns: Boolean = false): NotionTable? {
     val collectionId = recordMap.collectionsMap?.keys?.firstOrNull() ?: return null
     val collection = recordMap.collectionsMap[collectionId]
 
@@ -25,7 +27,7 @@ fun NotionResponse.mapTable(json: Json, sortColumns: Boolean = false): NotionTab
     return blocks?.let { collection?.mapTable(json, it, sortMap) }
 }
 
-fun NotionCollection.mapTable(
+public fun NotionCollection.mapTable(
     json: Json,
     blocks: List<NotionBlock>,
     sortMap: Map<String, Int>? = null
@@ -47,7 +49,7 @@ fun NotionCollection.mapTable(
             schemaItem.name.also { name ->
                 val field = props[innerRowKey]
 
-                rowItems[name] = parseNotionColumn(json, name, schemaItem.type, field)
+                rowItems[name] = field.parseNotionColumn(json, name, schemaItem.type)
             }
         }
 

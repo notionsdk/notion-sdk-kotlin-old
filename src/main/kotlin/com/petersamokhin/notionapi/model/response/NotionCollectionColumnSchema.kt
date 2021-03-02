@@ -4,30 +4,30 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
-typealias NotionTextField = List<List<String>>
+public typealias NotionTextField = List<List<String>>
 
 @Serializable
-sealed class NotionCollectionColumnSchema {
-    abstract val name: String
-    abstract val type: NotionColumnType
+public sealed class NotionCollectionColumnSchema {
+    public abstract val name: String
+    public abstract val type: NotionColumnType
 
     @Serializable
     @SerialName("title")
-    data class Title(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class Title(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("text")
-    data class Text(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class Text(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("number")
-    data class Number(
+    public data class Number(
         override val name: String,
         override val type: NotionColumnType,
         @SerialName("number_format") val numberFormat: String? = null
     ) : NotionCollectionColumnSchema() {
         @Serializable
-        enum class Format {
+        public enum class Format {
             @SerialName("number")
             Number,
 
@@ -74,15 +74,15 @@ sealed class NotionCollectionColumnSchema {
 
     @Serializable
     @SerialName("email")
-    data class Email(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class Email(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("checkbox")
-    data class Checkbox(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class Checkbox(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("select")
-    data class Select(
+    public data class Select(
         override val name: String,
         override val type: NotionColumnType,
         val options: List<NotionSelectOption>
@@ -90,7 +90,7 @@ sealed class NotionCollectionColumnSchema {
 
     @Serializable
     @SerialName("multi_select")
-    data class MultiSelect(
+    public data class MultiSelect(
         override val name: String,
         override val type: NotionColumnType,
         val options: List<NotionSelectOption>
@@ -98,18 +98,18 @@ sealed class NotionCollectionColumnSchema {
 
     @Serializable
     @SerialName("url")
-    data class Url(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class Url(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("date")
-    data class Date(
+    public data class Date(
         override val name: String,
         override val type: NotionColumnType,
         @SerialName("time_format") val timeFormat: String? = null,
         @SerialName("date_format") val dateFormat: String? = null
     ) : NotionCollectionColumnSchema() {
         @Serializable
-        enum class TimeFormat {
+        public enum class TimeFormat {
             @SerialName("LT")
             H_12,
 
@@ -118,7 +118,7 @@ sealed class NotionCollectionColumnSchema {
         }
 
         @Serializable
-        enum class DateFormat {
+        public enum class DateFormat {
             @SerialName("ll") // or null
             Full,
 
@@ -138,45 +138,45 @@ sealed class NotionCollectionColumnSchema {
 
     @Serializable
     @SerialName("person")
-    data class Person(
+    public data class Person(
         override val name: String,
         override val type: NotionColumnType
     ) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("phone_number")
-    data class PhoneNumber(
+    public data class PhoneNumber(
         override val name: String,
         override val type: NotionColumnType
     ) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("file")
-    data class File(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class File(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("last_edited_time")
-    data class LastEditedTime(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class LastEditedTime(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("last_edited_by")
-    data class LastEditedBy(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class LastEditedBy(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("created_time")
-    data class CreatedTime(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class CreatedTime(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("created_by")
-    data class CreatedBy(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class CreatedBy(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("rollup")
-    data class Rollup(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
+    public data class Rollup(override val name: String, override val type: NotionColumnType) : NotionCollectionColumnSchema()
 
     @Serializable
     @SerialName("relation")
-    data class Relation(
+    public data class Relation(
         override val name: String,
         override val type: NotionColumnType,
         val property: String,
@@ -186,7 +186,7 @@ sealed class NotionCollectionColumnSchema {
 
     @Serializable
     @SerialName("formula")
-    data class Formula(
+    public data class Formula(
         override val name: String,
         override val type: NotionColumnType,
         val formula: JsonElement
@@ -194,71 +194,11 @@ sealed class NotionCollectionColumnSchema {
 }
 
 @Serializable
-data class NotionPropertyFormat(
+public data class NotionPropertyFormat(
     val width: Int? = null,
     val visible: Boolean,
     val property: String
 )
 
 @Serializable
-data class NotionSelectOption(val id: String, val color: String, val value: String)
-
-@Serializable
-enum class NotionColumnType {
-    @SerialName("title")
-    Title,
-
-    @SerialName("text")
-    Text,
-
-    @SerialName("number")
-    Number,
-
-    @SerialName("checkbox")
-    Checkbox,
-
-    @SerialName("select")
-    Select,
-
-    @SerialName("multi_select")
-    MultiSelect,
-
-    @SerialName("email")
-    Email,
-
-    @SerialName("url")
-    Url,
-
-    @SerialName("date")
-    Date,
-
-    @SerialName("person")
-    Person,
-
-    @SerialName("phone_number")
-    PhoneNumber,
-
-    @SerialName("file")
-    File,
-
-    @SerialName("last_edited_time")
-    LastEditedTime,
-
-    @SerialName("last_edited_by")
-    LastEditedBy,
-
-    @SerialName("created_time")
-    CreatedTime,
-
-    @SerialName("created_by")
-    CreatedBy,
-
-    @SerialName("rollup")
-    Rollup,
-
-    @SerialName("relation")
-    Relation,
-
-    @SerialName("formula")
-    Formula
-}
+public data class NotionSelectOption(val id: String, val color: String, val value: String)

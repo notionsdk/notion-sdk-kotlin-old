@@ -1,6 +1,6 @@
-# KNotion API
+# Notion SDK / Kotlin / Unofficial API
 
-Unofficial Notion.so API wrapper, written in Kotlin. Can be used in Java.
+Unofficial Notion API wrapper (SDK), written in Kotlin. Can be used in Java.
 
 ### Install
 
