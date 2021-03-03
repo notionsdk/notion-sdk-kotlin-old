@@ -29,7 +29,7 @@ repositories {
 }
 
 group = "com.petersamokhin.notionsdk"
-version = "1.0.3"
+version = "1.0.4"
 
 
 dependencies {
