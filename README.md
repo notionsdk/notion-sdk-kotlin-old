@@ -1,5 +1,8 @@
 # Notion SDK / Kotlin / Unofficial API
 
+# Archived: this library depends on the private APIs which are unstable and not really convenient.
+# Please use https://github.com/notionsdk/notion-sdk-kotlin
+
 Unofficial Notion API wrapper (SDK), written in Kotlin. Can be used in Java.
 
 ### Install
